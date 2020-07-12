@@ -1,0 +1,61 @@
+#import modules
+import string
+import re
+from pickle import dump
+from unicodedata import normalize
+from numpy import array
+
+#load doc into memory
+def load_doc(fn):
+    file = open(fn, mode = 'r', encoding = 'utf-8')
+    txt = file.read()
+    file.close()
+    return txt
+
+#split a loaded document into sentences
+def to_pairs(doc):
+    ls = doc.strip().split('\n')
+    pairs = [l.split('\t') for l in ls]
+    return pairs
+
+#clean a list of lines
+def clean_pairs(ls):
+    cleaned = list()
+    re_punc = re.compile('[%s]' %re.escape(string.punctuation))
+    re_print = re.compile('[^%s]' %re.escape(string.printable))
+    for p in ls:
+        clean_pair = list()
+        for line in p:
+            # normalize unicode characters
+            line = normalize('NFC', line).encode('utf-8', 'ignore')
+            line = line.decode('utf-8')
+
+            # tokenize on white space
+            line = line.split()
+            # convert to lowercase
+            line = [word.lower() for word in line]
+            # remove punctuation from each token
+            line = [re_punc.sub('', w) for w in line]
+            # remove tokens with numbers in them
+            line = [word for word in line if word.isalpha()]
+            # store as string
+            clean_pair.append(' '.join(line))
+        cleaned.append(clean_pair)
+    return array(cleaned)
+# save a list of clean sentences to file
+def save_clean_data(sentences, filename):
+    dump(sentences, open(filename, 'wb'))
+    print('Saved: %s' % filename)
+
+# load dataset
+filename = 'aze.txt'
+doc = load_doc(filename)
+# split into english-azerbaijani pairs
+pairs = to_pairs(doc)
+# clean sentences
+clean_pairs = clean_pairs(pairs)
+# save clean pairs to file
+save_clean_data(clean_pairs, 'english-azerbaijani.pkl')
+# spot check
+for i in range(100):
+    print('[%s] => [%s]' % (clean_pairs[i,0], clean_pairs[i,1]))
