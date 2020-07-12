@@ -1,4 +1,4 @@
-# Neural Machine Translation Model
+# Neural Machine Translation Model for translating Azerbaijani phrases to English.
  In this project, I have discovered how to develop a neural machine translation system for translating Azerbaijani phrases to English. I use a dataset of Azerbaijani to English terms used as the basis for flashcards for language learning. The dataset is available from the ManyThings.org website, with examples drawn from the Tatoeba Project. After cleaning text data, it will be ready for modeling and defining. I have used an encoder-decoder LSTM model on this problem. 
  
 In this architecture, the input sequence is encoded by a front-end model called the encoder then decoded word by word by a backend model called the decoder. The model is trained using the efficient Adam approach to stochastic gradient descent and minimizes the categorical loss function because we have framed the prediction problem as multiclass classification. 
