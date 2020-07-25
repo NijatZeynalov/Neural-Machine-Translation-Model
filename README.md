@@ -3,7 +3,7 @@
  
 In this architecture, the input sequence is encoded by a front-end model called the encoder then decoded word by word by a backend model called the decoder. The model is trained using the efficient Adam approach to stochastic gradient descent and minimizes the categorical loss function because we have framed the prediction problem as multiclass classification. 
 
-A plot of the model is also created providing another perspective on the model configuration
+A plot of the model is also created providing another perspective on the model configuration.
 
 ![model](https://user-images.githubusercontent.com/31247506/87252532-90a5df80-c47c-11ea-9138-6568134b43c6.png)
 
